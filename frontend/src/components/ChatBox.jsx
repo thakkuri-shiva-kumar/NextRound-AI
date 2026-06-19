@@ -1,9 +1,9 @@
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { sendMessage as apiSendMessage } from "../services/api";
 
 function ChatBox() {
   const [input, setInput] = useState("");
-
   const [loading, setLoading] = useState(false);
 
   const [messages, setMessages] = useState([
@@ -24,9 +24,7 @@ function ChatBox() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
-
     setInput("");
-
     setLoading(true);
 
     try {
@@ -55,13 +53,11 @@ function ChatBox() {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
-
       <h2 className="text-4xl font-bold text-center text-white mb-8">
         AI Interview Coach
       </h2>
 
       <div className="flex flex-wrap justify-center gap-3 mb-6">
-
         <button
           onClick={() => handleSend("Start HR Interview")}
           className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg"
@@ -89,29 +85,31 @@ function ChatBox() {
         >
           Mock Interview
         </button>
-
       </div>
 
       <div className="bg-slate-800 rounded-2xl p-5 h-[500px] overflow-y-auto">
-
         {messages.map((msg, index) => (
           <div
             key={index}
             className={`my-4 ${
-              msg.sender === "user"
-                ? "text-right"
-                : "text-left"
+              msg.sender === "user" ? "text-right" : "text-left"
             }`}
           >
-           <div
-  className={`inline-block max-w-[80%] px-4 py-3 rounded-xl whitespace-pre-wrap text-left ${
-    msg.sender === "user"
-      ? "bg-blue-600 text-white"
-      : "bg-slate-700 text-white"
-  }`}
->
-  {msg.text}
-</div>
+            <div
+              className={`inline-block max-w-[80%] px-4 py-3 rounded-xl text-left ${
+                msg.sender === "user"
+                  ? "bg-blue-600 text-white"
+                  : "bg-slate-700 text-white"
+              }`}
+            >
+              {msg.sender === "user" ? (
+                msg.text
+              ) : (
+                <div className="prose prose-invert max-w-none whitespace-pre-wrap">
+                  <ReactMarkdown>{msg.text}</ReactMarkdown>
+                </div>
+              )}
+            </div>
           </div>
         ))}
 
@@ -120,18 +118,14 @@ function ChatBox() {
             Thinking...
           </div>
         )}
-
       </div>
 
       <div className="flex gap-3 mt-5">
-
         <input
           type="text"
           placeholder="Ask interview questions..."
           value={input}
-          onChange={(e) =>
-            setInput(e.target.value)
-          }
+          onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSend();
@@ -146,11 +140,10 @@ function ChatBox() {
         >
           Send
         </button>
-
       </div>
-
     </div>
   );
 }
 
 export default ChatBox;
+
