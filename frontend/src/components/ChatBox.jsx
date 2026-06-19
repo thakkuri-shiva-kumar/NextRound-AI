@@ -103,15 +103,15 @@ function ChatBox() {
                 : "text-left"
             }`}
           >
-            <span
-              className={`inline-block max-w-[80%] px-4 py-3 rounded-xl ${
-                msg.sender === "user"
-                  ? "bg-blue-600 text-white"
-                  : "bg-slate-700 text-white"
-              }`}
-            >
-              {msg.text}
-            </span>
+           <div
+  className={`inline-block max-w-[80%] px-4 py-3 rounded-xl whitespace-pre-wrap text-left ${
+    msg.sender === "user"
+      ? "bg-blue-600 text-white"
+      : "bg-slate-700 text-white"
+  }`}
+>
+  {msg.text}
+</div>
           </div>
         ))}
 
